@@ -1,4 +1,6 @@
 # keystonejs-stub
+
+[![Join the chat at https://gitter.im/webteckie/keystonejs-stub](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webteckie/keystonejs-stub?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Keystonejs-stub is a stub of keystonejs to use with unit testing frameworks like Jasmine.
 
 # model directory
