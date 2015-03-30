@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    stubMongooseAggregate = require("./stubMongooseAggregate");
+    stubMongoose = require("./stubMongoose");
 
 exports = module.exports = stubKeystone = {
 
@@ -57,25 +57,10 @@ exports = module.exports = stubKeystone = {
             }
         };
 
-        this.model = function Model(){
-        };
-
-        this.model.find = function (query, projection, callback) {}
-
-        this.model.findOne = function (criteria, callback) {}
-
-        this.model.findById = function (id, callback) {}
-
-        this.model.findOneAndUpdate = function (query, doc, options, callback) {}
-
-        this.model.findOneAndRemove = function (conditions, options, callback) {}
-
-        this.model.aggregate = function (criteria) {
-            return stubMongooseAggregate;
-        }
+        this.model = new stubMongoose();
     },
 
-    // The constructed lists
+    // List Model Instances
     lists: {},
 
     // List Model Getter

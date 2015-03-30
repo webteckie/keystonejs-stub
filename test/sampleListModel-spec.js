@@ -1,4 +1,5 @@
-var proxyquire =  require('proxyquire').noCallThru(),
+var _ = require('underscore'),
+    proxyquire =  require('proxyquire').noCallThru(),
     stubKeystone = require('../stub/stubKeystone'),
     stubListing = require('../stub/stubListing');
 
@@ -14,7 +15,14 @@ describe("SampleListModel", function(){
         });
         stubKeystone.lists['SampleListModel'] = SampleListModel;
 
+        // If you only need to mock a function once then you can simply do:
+        spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
+            callback && callback(null, stubListing.AnotherSampleListModel.listing1);
+        });
 
+
+        // Or, if you need to mock the same function multiple times then you need to be more explicit and
+        // mock the entire chain:
         spyOn(SampleListModel.model,'findOne').and.returnValue(
             {
                 sort: function (value) {
@@ -40,13 +48,12 @@ describe("SampleListModel", function(){
 
     it("should run all hooks on a doc", function(){
 
-        var doc = {
-            "name": "hook test"
-        }
+        // Should make a copy of the test data for each test
+        var doc = _.extend({}, stubListing.AnotherSampleListModel.listing1);
 
         stubKeystone.runHooks(doc);
 
-        expect(doc.name).toBe("hook test pre post");
+        expect(doc.name).toBe("Listing One");
     })
 
 });

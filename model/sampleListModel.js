@@ -9,7 +9,10 @@ SampleListModel.add({
 
 
 SampleListModel.schema.pre('save', function(next) {
-    this.name = this.name + ' pre';
+
+    SampleListModel.findOne(function(err, data) {
+        this.name = data;
+    });
 });
 
 SampleListModel.schema.post('save', function(doc) {
