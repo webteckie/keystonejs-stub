@@ -1,14 +1,62 @@
 # keystonejs-stub
-Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.
+Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.  Using this
+stubbing system you can test any module that requires keystone.  Although we use Jasmine here to demonstrate the
+stubbing system should be testing-framework agnostic.  The setup of the testing framework itself is outside the scope
+of this project.
 
-# model directory
-Defines a sample keystone list model.
+## Usage
+1. Clone or download and add to project (npm coming soon)
+2. Follow sample the test folder
 
-# stub directory
-Defines stubs for keystonejs, mongoose, and a sample data listing.
+## Notes
+1. A good base set of DB data listings is important.
 
-# test directory
-Jasmine test to test the sample model.  It uses proxyquire for stubbing.
+        exports.SimpleListingObject = {
+            "name": "Test Data"
+        }
+
+        exports.NestedObjectListing = {
+            listing: {
+                "name": "Test Data"
+            }
+        }
+
+        exports.ArrayListing = [
+            {
+                "name": "Test Data"
+            }
+        ]
+
+2. If you are testing List Models you need to export the list model.
+
+        module.exports = SampleListModel;
+
+3. Tests should make a copy of a data listing.  This allows each test to change its values to mimic usage scenarios:
+
+        var doc = _.extend({}, stubListing.SampleListing);
+
+4. When testing modules that use a particular mongoose API once you can spy on the exec method.
+
+        //Jasmine:
+        spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
+            callback && callback(null, stubListing.SampleListing);
+        });
+
+5. When testing modules that use a particular mongoose API more than once you need to spy  on the entire API chain.
+
+        //Jasmine:
+        spyOn(SampleListModel.model,'findOne').and.returnValue(
+            {
+                sort: function (value) {
+                    return {
+                        exec: function (callback) {
+                            callback && callback(null, stubListing.SampleListing);
+                        }
+                    }
+                }
+            }
+        );
+
 
 
 Feel free to recommend improvements or better approaches!

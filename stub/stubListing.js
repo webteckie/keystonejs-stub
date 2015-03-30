@@ -1,8 +1,8 @@
-exports.SampleListModel = {
+exports.SampleListing = {
     "name": "test"
 }
 
-exports.AnotherSampleListModel = {
+exports.AnotherSampleListing = {
     listing1: {
         "name": "Listing One"
     },

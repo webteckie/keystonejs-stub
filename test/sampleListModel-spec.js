@@ -17,7 +17,7 @@ describe("SampleListModel", function(){
 
         // If you only need to mock a function once then you can simply do:
         spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
-            callback && callback(null, stubListing.AnotherSampleListModel.listing1);
+            callback && callback(null, stubListing.AnotherSampleListing.listing1);
         });
 
 
@@ -28,7 +28,7 @@ describe("SampleListModel", function(){
                 sort: function (value) {
                     return {
                         exec: function (callback) {
-                            callback && callback(null, stubListing.SampleList1);
+                            callback && callback(null, stubListing.SampleListing);
                         }
                     }
                 }
@@ -49,7 +49,7 @@ describe("SampleListModel", function(){
     it("should run all hooks on a doc", function(){
 
         // Should make a copy of the test data for each test
-        var doc = _.extend({}, stubListing.AnotherSampleListModel.listing1);
+        var doc = _.extend({}, stubListing.AnotherSampleListing.listing1);
 
         stubKeystone.runHooks(doc);
 
