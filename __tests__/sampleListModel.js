@@ -10,13 +10,11 @@ SampleListModel.add({
 
 SampleListModel.schema.pre('save', function(next) {
 
-    SampleListModel.findOne(function(err, data) {
-        this.name = data;
-    });
+    this.name = 'pre-save';
 });
 
 SampleListModel.schema.post('save', function(doc) {
-    doc.name = doc.name + ' post';
+    doc.name = doc.name + ' post-save';
 });
 
 

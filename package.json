@@ -1,0 +1,33 @@
+{
+  "name": "keystonejs-stub",
+  "version": "0.1.0",
+  "description": "Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webteckie/keystonejs-stub.git"
+  },
+  "keywords": [
+    "keystonejs",
+    "stub",
+    "unit",
+    "testing"
+  ],
+  "author": "Carlos Colon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webteckie/keystonejs-stub/issues"
+  },
+  "homepage": "https://github.com/webteckie/keystonejs-stub",
+  "devDependencies": {
+    "jasmine": "^2.2.1",
+    "proxyquire": "^1.4.0",
+    "underscore": "^1.8.2"
+  }
+}

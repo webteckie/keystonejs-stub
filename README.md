@@ -1,12 +1,12 @@
 # keystonejs-stub
 Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.  Using this
-stubbing system you can test any module that requires keystone.  Although we use Jasmine here to demonstrate the
-stubbing system should be testing-framework agnostic.  The setup of the testing framework itself is outside the scope
-of this project.
+stubbing system you can test any module that requires keystone.  Although Jasmine is used to demonstrate how the
+stubbing system works it should be testing-framework agnostic.  The setup of the testing framework itself is outside
+the scope of this project.
 
 ## Usage
 1. Clone or download and add to project (npm coming soon)
-2. Follow sample the test folder
+2. Follow the samples in the __tests__ folder
 
 ## Notes
 1. A good base set of DB data listings is important.

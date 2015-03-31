@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    stubMongoose = require("./stubMongoose");
+    stubMongoose = require("./stub/stubMongoose");
 
 exports = module.exports = stubKeystone = {
 
@@ -85,7 +85,7 @@ exports = module.exports = stubKeystone = {
 
     // Runs configured schema hooks
     runHooks: function (doc){
-        _.each(keystoneStub.schema_hooks, function(hook) {
+        _.each(stubKeystone.schema_hooks, function(hook) {
             if ( hook.type === 'pre') {
                 hook.pre.apply(doc);
             } else if (hook.type == 'post') {
