@@ -5,8 +5,16 @@ stubbing system works it should be testing-framework agnostic.  The setup of the
 the scope of this project.
 
 ## Usage
-1. Clone or download and add to project (npm coming soon)
-2. Follow the samples in the __tests__ folder
+Install it:
+
+        npm install keystonejs-stub --save-dev
+
+Require it in your test spec:
+
+        keystoneStub = require('keystonejs-stub'),
+
+Follow the samples in the __tests__ folder as a guide.
+
 
 ## Notes
 1. A good base set of DB data listings is important.
