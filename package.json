@@ -1,6 +1,6 @@
 {
   "name": "keystonejs-stub",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.",
   "main": "index.js",
   "directories": {
@@ -27,7 +27,9 @@
   "homepage": "https://github.com/webteckie/keystonejs-stub",
   "devDependencies": {
     "jasmine": "^2.2.1",
-    "proxyquire": "^1.4.0",
+    "proxyquire": "^1.4.0"
+  },
+  "dependencies": {
     "underscore": "^1.8.2"
   }
 }
