@@ -19,8 +19,9 @@ Use it--the following example uses proxyquire:
             'keystone': stubKeystone
         });
 
-For more usage examples please checkout the samples in the __tests__ folder.  You may need to "npm install" in the
-keystonejs-stub directory to install dev dependencies.  You can execute the sample tests by running "npm test".
+For more usage examples please checkout the samples in the "__tests__" folder.  You may need to run "npm install" in the
+keystonejs-stub directory to install dev dependencies.  You can execute the sample tests by running "npm test" under
+the keystonejs-stub directory.
 
 
 ## Notes
@@ -60,7 +61,7 @@ keystonejs-stub directory to install dev dependencies.  You can execute the samp
 
 
 
-Feel free to recommend improvements or better approaches!
+Feel free to send improvements!
 
 
 # License
