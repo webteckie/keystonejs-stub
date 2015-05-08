@@ -1,7 +1,6 @@
 var _ = require('underscore'),
   stubMongoose = require("./stubMongoose"),
-  virtualType = require("./VirtualType"),
-  debug = require('debug')('keystone');
+  virtualType = require("./VirtualType");
 
 exports = module.exports = stubKeystone = {
 
