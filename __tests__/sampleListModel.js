@@ -18,6 +18,11 @@ SampleListModel.schema.post('save', function(doc) {
 });
 
 
+// Provide access to Keystone
+SampleListModel.schema.virtual('canAccessKeystone').get(function() {
+  return this.isAdmin;
+});
+
 SampleListModel.defaultColumns = 'name';
 
 SampleListModel.register();
