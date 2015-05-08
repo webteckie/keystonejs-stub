@@ -2,6 +2,9 @@
     Add more mongoose methods as needed.
 */
 
+// Added virtualtype the simplest way possible
+//var VirtualType = require('./VirtualType');
+
 
 function isFunction(functionToCheck) {
     var getType = {};
@@ -9,6 +12,7 @@ function isFunction(functionToCheck) {
 }
 
 exports = module.exports = function mongooseStub() {
+
 
     this.$where = function (js) {
         return this;
@@ -25,6 +29,8 @@ exports = module.exports = function mongooseStub() {
     this.batchSize = function (val) {
         return this;
     }
+
+
 
     this.box = function (val, upper) {
         return this;
@@ -59,6 +65,10 @@ exports = module.exports = function mongooseStub() {
     }
 
     this.equals = function (val) {
+        return this;
+    }
+
+    this.virtual = function (name, options) {
         return this;
     }
 
