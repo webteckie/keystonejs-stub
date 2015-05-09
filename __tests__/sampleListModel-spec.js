@@ -16,7 +16,7 @@ describe("SampleListModel", function(){
         });
         stubKeystone.lists['SampleListModel'] = SampleListModel;
 
-        // If you only need to mock a function once then you can simply do:
+        //If you only need to mock a function once then you can simply do:
         spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
             callback && callback(null, sampleListings.AnotherSampleListing.listing1);
         });
@@ -32,6 +32,12 @@ describe("SampleListModel", function(){
         stubKeystone.runHooks(doc);
 
         expect(doc.name).toBe("pre-save post-save");
-    })
+    });
 
+    describe("schema virtual functions", function() {
+        it("should exist", function() {
+            expect(SampleListModel.schema.virtual).toBeDefined();
+        });
+
+    });
 });
