@@ -61,13 +61,14 @@ exports = module.exports = stubKeystone = {
         stubKeystone.schema_hooks.push(hook);
       },
       virtual: function(name, options) {
-        var virtuals = stubKeystone.virtuals;
-        var parts = name.split('.');
-        return virtuals[name] = parts.reduce(function(mem, part, i) {
-          mem[part] || (mem[part] = (i === parts.length - 1) ? new virtualType(options, name) : {});
-          return mem[part];
-        }, stubKeystone.tree);
-      }
+        Object.defineProperty(this, name, {
+          get: function() {
+            return this.width*this.height;
+          },
+          set: function(val) {
+            alert("no no no");
+          }
+        });       }
     };
 
     this.model = new stubMongoose();

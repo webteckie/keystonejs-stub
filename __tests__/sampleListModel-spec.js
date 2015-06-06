@@ -21,10 +21,23 @@ describe("SampleListModel", function(){
             callback && callback(null, sampleListings.AnotherSampleListing.listing1);
         });
 
+        spyOn(SampleListModel.schema,'virtual').and.returnValue(doc.name.split('').reverse().join(''));
+
     });
 
 
     it("should run all hooks on a doc", function(){
+
+        // Should make a copy of the test data for each test
+        var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
+
+        stubKeystone.runHooks(doc);
+
+        expect(doc.name).toBe("pre-save post-save");
+    })
+
+
+    it("should test mongoose schema methods", function(){
 
         // Should make a copy of the test data for each test
         var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
