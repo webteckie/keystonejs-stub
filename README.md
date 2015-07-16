@@ -25,7 +25,16 @@ the keystonejs-stub directory.
 
 
 ## Notes
-1. If you are testing List Models you need to export the list model:
+ 
+- The intent of this stub system is not for doing integration or end-to-end testing, which can be accomplished in a slightly
+different manner.  The stub system is specifically for unit testing.  That assumes that you have adhered as much as possible to the
+[Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) when designing/implementing
+your application modules. The stub system heavily relies on mocking stubbed methods that return results, which affect subsequent
+logic in the module.
+
+
+
+- If you are testing List Models you need to export the list model:
 
         var keystone = require('keystone');
 
@@ -37,14 +46,16 @@ the keystonejs-stub directory.
 
         module.exports = SampleListModel;
 
-2. When testing modules that use a particular mongoose API once you can spy on the exec method.
+
+- When testing modules that use a particular mongoose API once you can spy on the exec method.
 
         //Jasmine:
         spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
             callback && callback(null, stubListing.SampleListing);
         });
 
-3. When testing modules that use a particular mongoose API more than once you need to spy  on the entire API chain.
+
+- When testing modules that use a particular mongoose API more than once you need to spy  on the entire API chain.
 
         //Jasmine:
         spyOn(SampleListModel.model,'findOne').and.returnValue(
@@ -58,6 +69,16 @@ the keystonejs-stub directory.
                 }
             }
         );
+
+
+- To test list hooks you must call:
+
+        stubKeystone.runHooks(doc);
+
+
+- To test list virtuals you must first set a document item in the list:
+ 
+        SampleListModel.setDoc(doc);
 
 
 
