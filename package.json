@@ -1,6 +1,6 @@
 {
   "name": "keystonejs-stub",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Keystonejs-stub is a stubbing system for keystonejs to be used with unit testing frameworks like Jasmine.",
   "main": "index.js",
   "directories": {

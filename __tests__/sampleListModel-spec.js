@@ -1,7 +1,7 @@
-var _ = require('underscore'),
-    proxyquire =  require('proxyquire').noCallThru(),
-    stubKeystone = require('../index'),
-    sampleListings = require('./sampleListings');
+var _ = require('underscore');
+var proxyquire =  require('proxyquire').noCallThru();
+var stubKeystone = require('../index');
+var sampleListings = require('./sampleListings');
 
 
 describe("SampleListModel", function(){
@@ -20,9 +20,6 @@ describe("SampleListModel", function(){
         spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
             callback && callback(null, sampleListings.AnotherSampleListing.listing1);
         });
-
-        spyOn(SampleListModel.schema,'virtual').and.returnValue(doc.name.split('').reverse().join(''));
-
     });
 
 
@@ -34,7 +31,7 @@ describe("SampleListModel", function(){
         stubKeystone.runHooks(doc);
 
         expect(doc.name).toBe("pre-save post-save");
-    })
+    });
 
 
     it("should test mongoose schema methods", function(){
@@ -45,6 +42,21 @@ describe("SampleListModel", function(){
         stubKeystone.runHooks(doc);
 
         expect(doc.name).toBe("pre-save post-save");
-    })
+    });
+
+
+    it("should call a virtual that reverses the name", function(){
+
+        // Should make a copy of the test data for each test
+        var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
+
+        // Virtuals rely on a document to operate on
+        SampleListModel.setDoc(doc);
+
+        stubKeystone.runHooks(doc);
+
+        expect(SampleListModel.reverse).toBe(doc.name.split('').reverse().join(''));
+    });
+
 
 });
