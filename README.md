@@ -51,7 +51,7 @@ logic in the module.
 
         //Jasmine:
         spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
-            callback && callback(null, stubListing.SampleListing);
+            callback && callback(null, new sampleDocument());
         });
 
 
@@ -63,7 +63,7 @@ logic in the module.
                 sort: function (value) {
                     return {
                         exec: function (callback) {
-                            callback && callback(null, stubListing.SampleListing);
+                            callback && callback(null, new sampleDocument());
                         }
                     }
                 }
@@ -71,18 +71,26 @@ logic in the module.
         );
 
 
-- To test list hooks you must call:
-
-        stubKeystone.runHooks(doc);
-
-
-- To test list virtuals you must first set a document item in the list:
+- To test list virtuals, methods, and statics you must first set a document item in the list:
  
         SampleListModel.setDoc(doc);
 
 
+If you need to enable logging on keystonejs-stub then set (windows) or export (linux) any of the following debug tags:
 
-Feel free to send improvements!
+    keystone
+    list
+    model
+    schema
+
+
+For example:
+
+    export DEBUG=list,schema,model,listmodel && npm test
+    
+     
+
+This is work-in-progress and based on current needs.  Feel free to send improvements!
 
 
 # License

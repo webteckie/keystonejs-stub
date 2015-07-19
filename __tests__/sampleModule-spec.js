@@ -1,6 +1,6 @@
-var proxyquire =  require('proxyquire').noCallThru(),
-    stubKeystone = require('../index'),
-    sampleListings = require('./sampleListings');
+var proxyquire =  require('proxyquire').noCallThru();
+var stubKeystone = require('../index');
+var sampleDocument = require('./sampleDocument');
 
 
 describe("SampleModule", function(){
@@ -19,30 +19,32 @@ describe("SampleModule", function(){
         SampleListModel = proxyquire('./SampleListModel', {
             'keystone': stubKeystone
         });
-        stubKeystone.lists['SampleListModel'] = SampleListModel;
 
-        // Setup any spies. If you need to mock the same function multiple times then you need to be more explicit and
-        // mock the entire chain:
+        stubKeystone.lists['SampleListModel'] = SampleListModel;
+    });
+
+
+    it("should have a name", function(){
+
+        // ARRANGE
         spyOn(SampleListModel.model,'findOne').and.returnValue(
             {
                 sort: function (value) {
                     return {
                         exec: function (callback) {
-                            callback && callback(null, sampleListings.SampleListing);
+                            callback && callback(null, new sampleDocument());
                         }
                     }
                 }
             }
         );
 
-    });
-
-
-    it("should have a name", function(){
-
+        // ACT
         SampleModule.test();
+        var result = stubKeystone.get('test');
 
-        expect(stubKeystone.get('test')).toBe("worked!");
+        // ASSERT
+        expect(result).toBe("worked!");
     })
 
 });

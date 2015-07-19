@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var proxyquire =  require('proxyquire').noCallThru();
 var stubKeystone = require('../index');
-var sampleListings = require('./sampleListings');
+var sampleDocument = require('./sampleDocument');
 
 
 describe("SampleListModel", function(){
@@ -14,49 +14,68 @@ describe("SampleListModel", function(){
         SampleListModel = proxyquire('./SampleListModel', {
             'keystone': stubKeystone
         });
+
         stubKeystone.lists['SampleListModel'] = SampleListModel;
 
-        // If you only need to mock a function once then you can simply do:
-        spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
-            callback && callback(null, sampleListings.AnotherSampleListing.listing1);
-        });
+        // If you only need to mock a function once then you can simply do something like:
+        //spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
+        //    callback && callback(null, new sampleDocument());
+        //});
     });
 
 
-    it("should run all hooks on a doc", function(){
+    it("should run all pre/post-save hooks on a doc is saved", function(){
 
-        // Should make a copy of the test data for each test
-        var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
-
-        stubKeystone.runHooks(doc);
-
-        expect(doc.name).toBe("pre-save post-save");
-    });
-
-
-    it("should test mongoose schema methods", function(){
-
-        // Should make a copy of the test data for each test
-        var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
-
-        stubKeystone.runHooks(doc);
-
-        expect(doc.name).toBe("pre-save post-save");
-    });
-
-
-    it("should call a virtual that reverses the name", function(){
-
-        // Should make a copy of the test data for each test
-        var doc = _.extend({}, sampleListings.AnotherSampleListing.listing1);
-
-        // Virtuals rely on a document to operate on
+        // ARRANGE
+        var doc = new sampleDocument();
         SampleListModel.setDoc(doc);
 
-        stubKeystone.runHooks(doc);
+        // ACT
+        doc.save();
 
+        // ASSERT
+        expect(doc.name).toBe("pre-save post-save");
+    });
+
+
+    it("should call a virtual that reverses the document name", function(){
+
+        // ARRANGE
+        var doc = new sampleDocument();
+        SampleListModel.setDoc(doc);
+
+        // ACT
+        var reversedName = SampleListModel.reverse;
+
+        // ASSERT
         expect(SampleListModel.reverse).toBe(doc.name.split('').reverse().join(''));
     });
 
 
+    it("should call a schema method that changes the document name", function(){
+
+        // ARRANGE
+        var doc = new sampleDocument();
+        SampleListModel.setDoc(doc);
+
+        // ACT
+        doc.changeName('foo bar');
+
+        // ASSERT
+        expect(doc.name).toBe('foo bar');
+    });
+
+
+    it("should call a schema static method that prefixes the document name", function(){
+
+        // ARRANGE
+        var doc = new sampleDocument();
+        SampleListModel.setDoc(doc);
+
+        // ACT
+        doc.prefixName('***');
+
+        // ASSERT
+        expect(doc.name).toBe('***test');
+    });
 });
