@@ -5,8 +5,7 @@ var sampleDocument = require('./sampleDocument');
 
 describe("SampleModule", function(){
 
-    var SampleListModel = null,
-        SampleModule = null;
+    var SampleModule = null;
 
     beforeEach(function(){
 
@@ -16,35 +15,31 @@ describe("SampleModule", function(){
         });
 
         // Setup any List Models used by the module under test in keystone
-        SampleListModel = proxyquire('./SampleListModel', {
+        stubKeystone.lists['SampleListModel'] = proxyquire('./SampleListModel', {
             'keystone': stubKeystone
         });
-
-        stubKeystone.lists['SampleListModel'] = SampleListModel;
     });
 
 
     it("should have a name", function(){
 
         // ARRANGE
-        spyOn(SampleListModel.model,'findOne').and.returnValue(
-            {
-                sort: function (value) {
-                    return {
-                        exec: function (callback) {
-                            callback && callback(null, new sampleDocument());
-                        }
+        spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
+            sort: function (value) {
+                return {
+                    exec: function (callback) {
+                        callback && callback(null, new sampleDocument());
                     }
                 }
             }
-        );
+        });
 
         // ACT
         SampleModule.test();
         var result = stubKeystone.get('test');
 
         // ASSERT
+        expect(stubKeystone.lists['SampleListModel'].model.find).toHaveBeenCalled();
         expect(result).toBe("worked!");
     })
-
 });

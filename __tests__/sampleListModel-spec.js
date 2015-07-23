@@ -14,13 +14,6 @@ describe("SampleListModel", function(){
         SampleListModel = proxyquire('./SampleListModel', {
             'keystone': stubKeystone
         });
-
-        stubKeystone.lists['SampleListModel'] = SampleListModel;
-
-        // If you only need to mock a function once then you can simply do something like:
-        //spyOn(SampleListModel.model,'exec').and.callFake(function(callback){
-        //    callback && callback(null, new sampleDocument());
-        //});
     });
 
 
