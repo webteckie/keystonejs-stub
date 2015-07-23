@@ -58,18 +58,25 @@ logic in the module.
 - When testing modules that use a particular mongoose API more than once you need to spy  on the entire API chain.
 
         //Jasmine:
-        spyOn(SampleListModel.model,'findOne').and.returnValue(
-            {
-                sort: function (value) {
-                    return {
-                        exec: function (callback) {
-                            callback && callback(null, new sampleDocument());
-                        }
+        spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
+            sort: function (value) {
+                return {
+                    exec: function (callback) {
+                        callback && callback(null, new sampleDocument());
                     }
                 }
             }
-        );
+        });
 
+
+- When mocking models you can just assign them directly to the lists object in the keystone stub:
+ 
+        stubKeystone.lists['SampleListModel'] = proxyquire('./SampleListModel', {
+            'keystone': stubKeystone
+        });
+    
+    NOTE:  However, if the model is the SUT then you don't need to assign it to lists!
+    
 
 - To test list virtuals, methods, and statics you must first set a document item in the list:
  
