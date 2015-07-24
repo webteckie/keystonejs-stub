@@ -52,48 +52,46 @@ logic in the module.
         SomeList.model.findOne({'slug': 'xxx'}).sort('-yyy').populate('zzz').exec(function (err, item) {
             ...
         });
+
     
     Then you can mock that chain in various ways:
     
-    * You can assume keystonejs-stub's default mocking for .sort() and .populate() and just mock the .exec() as follows:
+    - You can assume keystonejs-stub's default mocking for .sort() and .populate() and just mock the .exec() as follows:
     
-        //Jasmine:
-        spyOn(SomeList.model,'exec').and.callFake(function(callback){
-            callback && callback(null, <result listing data>);
-        });
+            spyOn(SomeList.model,'exec').and.callFake(function(callback){
+                callback && callback(null, <result listing data>);
+            });
 
-    * You can mock either .sort() or .populate() along with .exec() as follows:
+    - You can mock either .sort() or .populate() along with .exec() as follows:
 
-        //Jasmine:
-        spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
-            sort: function (value) {
-                <do-whatever-sort>
-                return {
-                    exec: function (callback) {
-                        callback && callback(null, <result listing data>);
+            spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
+                sort: function (value) {
+                    <do-whatever-sort>
+                    return {
+                        exec: function (callback) {
+                            callback && callback(null, <result listing data>);
+                        }
                     }
                 }
-            }
-        });
+            });
 
-    * You can mock all .sort(), .populate(), and .exec() as follows:
+    - You can mock all .sort(), .populate(), and .exec() as follows:
 
-        //Jasmine:
-        spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
-            sort: function (value) {
-                <do-whatever-sort>
-                return {
-                    populate: function (callback) {
-                        <do-whatever-populate>
-                        return {
-                            exec: function (callback) {
-                                callback && callback(null, <result listing data>);
+            spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
+                sort: function (value) {
+                    <do-whatever-sort>
+                    return {
+                        populate: function (callback) {
+                            <do-whatever-populate>
+                            return {
+                                exec: function (callback) {
+                                    callback && callback(null, <result listing data>);
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
 
 
 - When mocking models you can just assign them directly to the lists object in the keystone stub:
