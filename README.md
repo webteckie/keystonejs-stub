@@ -65,7 +65,7 @@ logic in the module.
     - You can mock either .sort() or .populate() along with .exec() as follows:
 
             spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
-                sort: function (value) {
+                sort: function (arg) {
                     <do-whatever-sort>
                     return {
                         exec: function (callback) {
@@ -91,10 +91,10 @@ logic in the module.
     - You can mock all .sort(), .populate(), and .exec() as follows:
 
             spyOn(stubKeystone.lists['SampleListModel'].model,'find').and.returnValue({
-                sort: function (value) {
+                sort: function (arg) {
                     <do-whatever-sort>
                     return {
-                        populate: function (callback) {
+                        populate: function (arg) {
                             <do-whatever-populate>
                             return {
                                 exec: function (callback) {
