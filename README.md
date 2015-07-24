@@ -69,10 +69,23 @@ logic in the module.
                     <do-whatever-sort>
                     return {
                         exec: function (callback) {
+                            <do-whatever-before-callback>
                             callback && callback(null, <result listing data>);
                         }
                     }
                 }
+            });
+
+    - The previous mock can also be done as independent mocks as follows:
+
+            spyOn(stubKeystone.lists['SampleListModel'].model,'sort').and.callFake(function(arg){
+                <do-whatever-sort>
+                return this;
+            });
+
+            spyOn(stubKeystone.lists['SampleListModel'].model,'exec').and.callFake(function(callback){
+                <do-whatever-before-callback>
+                callback && callback(null, <result listing data>);
             });
 
     - You can mock all .sort(), .populate(), and .exec() as follows:
@@ -85,6 +98,7 @@ logic in the module.
                             <do-whatever-populate>
                             return {
                                 exec: function (callback) {
+                                    <do-whatever-before-callback>
                                     callback && callback(null, <result listing data>);
                                 }
                             }
@@ -92,6 +106,8 @@ logic in the module.
                     }
                 }
             });
+
+    - or you can break the above as independent mocks as previously described
 
 
 - When mocking models you can just assign them directly to the lists object in the keystone stub:
@@ -118,7 +134,7 @@ If you need to enable logging on keystonejs-stub then set (windows) or export (l
 
 For example:
 
-    export DEBUG=list,schema,model,listmodel && npm test
+    export DEBUG=keystone,list,schema,model && npm test
     
      
 
