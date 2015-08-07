@@ -44,7 +44,7 @@ describe("SampleListModel", function(){
             // NOTE:  Mongoose will run the post after it invokes our callback!!!
             setTimeout(function(){
                 expect(doc.name).toBe("pre-save post-save");
-            }, 1000 );
+            },1);
         });
     });
 
