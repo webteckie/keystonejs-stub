@@ -1,3 +1,4 @@
+var debug = require('debug')('modelspec');
 var _ = require('underscore');
 var proxyquire =  require('proxyquire').noCallThru();
 var stubKeystone = require('../index');
@@ -17,17 +18,34 @@ describe("SampleListModel", function(){
     });
 
 
-    it("should run all pre/post-save hooks on a doc is saved", function(){
+    it("should run pre-save hook when a doc is saved", function(){
 
         // ARRANGE
         var doc = new sampleDocument();
         SampleListModel.setDoc(doc);
 
         // ACT
-        doc.save();
+        doc.save(function(err){
+            // ASSERT
+            expect(doc.name).toBe("pre-save");
+        });
+    });
 
-        // ASSERT
-        expect(doc.name).toBe("pre-save post-save");
+
+    it("should run all pre/post-save hooks when a doc is saved", function(){
+
+        // ARRANGE
+        var doc = new sampleDocument();
+        SampleListModel.setDoc(doc);
+
+        // ACT
+        doc.save(function(err){
+            // ASSERT
+            // NOTE:  Mongoose will run the post after it invokes our callback!!!
+            setTimeout(function(){
+                expect(doc.name).toBe("pre-save post-save");
+            }, 1000 );
+        });
     });
 
 

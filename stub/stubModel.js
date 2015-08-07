@@ -337,158 +337,168 @@ function Model(schema) {
 }
 
 // init middleware
-Model.prototype.init = function (opts, cb) {
+//Model.prototype.init = function (opts, cb) {
+Model.prototype.init = function (cb) {
 
-    debug(this.schema.list.key+": initing document: " + this.doc.name);
+    self = this;
+
+    debug(self.schema.list.key+": initing document: " + self.doc.name);
 
     var preHook = null;
     var postHook = null;
 
     // run any action pre/post-init hooks
-    for (hook in this.schema.hooks) {
-        if ( this.schema.hooks[hook].action === 'init' && this.schema.hooks[hook].type === 'pre' ) {
-            preHook = this.schema.hooks[hook].pre;
+    for (hook in self.schema.hooks) {
+        if ( self.schema.hooks[hook].action === 'init' && self.schema.hooks[hook].type === 'pre' ) {
+            preHook = self.schema.hooks[hook].pre;
         }
 
-        if ( this.schema.hooks[hook].action === 'init' && this.schema.hooks[hook].type === 'post' ) {
-            postHook = this.schema.hooks[hook].post;
+        if ( self.schema.hooks[hook].action === 'init' && self.schema.hooks[hook].type === 'post' ) {
+            postHook = self.schema.hooks[hook].post;
         }
     }
 
-    if ( preHook ) {
-        debug("calling init pre-hook on " + this.schema.list.key);
-        preHook.apply(this.doc);
-    }
-
-    if ( postHook ) {
-        debug("calling init post-hook on " + this.schema.list.key);
-        postHook(this.doc);
+    if (preHook) {
+        debug("calling init pre-hook on " + self.schema.list.key);
+        preHook.apply(self.doc, function(err){
+            if ( err ) {
+                error("pre-init hook failed");
+            }
+            cb && cb(err);
+            if (postHook) {
+                debug("calling init post-hook on " + self.schema.list.key);
+                postHook(self.doc);
+            }
+        });
     }
 
     if (!preHook && !postHook) {
-        debug("no init hooks configured in "+this.schema.list.key);
+        debug("no init hooks configured in "+self.schema.list.key);
     }
-
-    cb && cb();
 };
 
 
 // validate middleware
-Model.prototype.validate = function (opts, cb) {
+//Model.prototype.validate = function (opts, cb) {
+Model.prototype.validate = function (cb) {
 
-    debug(this.schema.list.key+": validating document: " + this.doc.name);
+    self = this;
+
+    debug(self.schema.list.key+": validating document: " + self.doc.name);
 
     var preHook = null;
     var postHook = null;
 
     // run any action pre/post-validate hooks
-    for (hook in this.schema.hooks) {
-        if ( this.schema.hooks[hook].action === 'validate' && this.schema.hooks[hook].type === 'pre' ) {
-            preHook = this.schema.hooks[hook].pre;
+    for (hook in self.schema.hooks) {
+        if ( self.schema.hooks[hook].action === 'validate' && self.schema.hooks[hook].type === 'pre' ) {
+            preHook = self.schema.hooks[hook].pre;
         }
 
-        if ( this.schema.hooks[hook].action === 'validate' && this.schema.hooks[hook].type === 'post' ) {
-            postHook = this.schema.hooks[hook].post;
+        if ( self.schema.hooks[hook].action === 'validate' && self.schema.hooks[hook].type === 'post' ) {
+            postHook = self.schema.hooks[hook].post;
         }
     }
 
-    if ( preHook ) {
-        debug("calling validate pre-hook on " + this.schema.list.key);
-        preHook.apply(this.doc);
-    }
-
-    if ( postHook ) {
-        debug("calling validate post-hook on " + this.schema.list.key);
-        postHook(this.doc);
+    if (preHook) {
+        debug("calling validate pre-hook on " + self.schema.list.key);
+        preHook.apply(self.doc, function(err){
+            if ( err ) {
+                error("pre-validate hook failed");
+            }
+            cb && cb(err);
+            if (postHook) {
+                debug("calling validate post-hook on " + self.schema.list.key);
+                postHook(self.doc);
+            }
+        });
     }
 
     if (!preHook && !postHook) {
-        debug("no validate hooks configured in "+this.schema.list.key);
+        debug("no validate hooks configured in "+self.schema.list.key);
     }
-
-    cb && cb();
 };
 
 // save middleware
-Model.prototype.save = function (opts, cb) {
+//Model.prototype.save = function (opts, cb) {
+Model.prototype.save = function (cb) {
 
-    debug(this.schema.list.key+": saving document: " + this.doc.name);
+    self = this;
+
+    debug(self.schema.list.key+": saving document: " + self.doc.name);
 
     var preHook = null;
     var postHook = null;
 
     // run any action pre/post-save hooks
-    for (hook in this.schema.hooks) {
-        if ( this.schema.hooks[hook].action === 'save' && this.schema.hooks[hook].type === 'pre' ) {
-            preHook = this.schema.hooks[hook].pre;
+    for (hook in self.schema.hooks) {
+        if ( self.schema.hooks[hook].action === 'save' && self.schema.hooks[hook].type === 'pre' ) {
+            preHook = self.schema.hooks[hook].pre;
         }
 
-        if ( this.schema.hooks[hook].action === 'save' && this.schema.hooks[hook].type === 'post' ) {
-            postHook = this.schema.hooks[hook].post;
+        if ( self.schema.hooks[hook].action === 'save' && self.schema.hooks[hook].type === 'post' ) {
+            postHook = self.schema.hooks[hook].post;
         }
     }
 
-    if ( preHook ) {
-        debug("calling save pre-hook on " + this.schema.list.key);
-        preHook.apply(this.doc);
-    }
-
-    if ( postHook ) {
-        debug("calling save post-hook on " + this.schema.list.key);
-        postHook(this.doc);
+    if (preHook) {
+        debug("calling save pre-hook on " + self.schema.list.key);
+        preHook.call(self.doc, function(err){
+            if ( err ) {
+                error("pre-save hook failed");
+            }
+            cb && cb(err);
+            if (postHook) {
+                debug("calling save post-hook on " + self.schema.list.key);
+                postHook(self.doc);
+            }
+        });
     }
 
     if (!preHook && !postHook) {
-        debug("no save hooks configured in "+this.schema.list.key);
+        debug("no save hooks configured in "+self.schema.list.key);
     }
-
-    cb && cb();
 };
 
 // remove middleware
-Model.prototype.remove = function (opts, cb) {
+//Model.prototype.remove = function (opts, cb) {
+Model.prototype.remove = function (cb) {
 
-    debug(this.schema.list.key+": removing document: " + this.doc.name);
+    self = this;
+
+    debug(self.schema.list.key+": removing document: " + self.doc.name);
 
     var preHook = null;
     var postHook = null;
 
     // run any action pre/post-remove hooks
-    for (hook in this.schema.hooks) {
-        if ( this.schema.hooks[hook].action === 'remove' && this.schema.hooks[hook].type === 'pre' ) {
-            preHook = this.schema.hooks[hook].pre;
+    for (hook in self.schema.hooks) {
+        if ( self.schema.hooks[hook].action === 'remove' && self.schema.hooks[hook].type === 'pre' ) {
+            preHook = self.schema.hooks[hook].pre;
         }
 
-        if ( this.schema.hooks[hook].action === 'remove' && this.schema.hooks[hook].type === 'post' ) {
-            postHook = this.schema.hooks[hook].post;
+        if ( self.schema.hooks[hook].action === 'remove' && self.schema.hooks[hook].type === 'post' ) {
+            postHook = self.schema.hooks[hook].post;
         }
     }
 
-    if ( preHook ) {
-        debug("calling remove pre-hook on " + this.schema.list.key);
-        preHook.apply(this.doc);
-    }
-
-    if ( postHook ) {
-        debug("calling remove post-hook on " + this.schema.list.key);
-        postHook(this.doc);
+    if (preHook) {
+        debug("calling remove pre-hook on " + self.schema.list.key);
+        preHook.apply(self.doc, function(err){
+            if ( err ) {
+                error("pre-remove hook failed");
+            }
+            cb && cb(err);
+            if (postHook) {
+                debug("calling remove post-hook on " + self.schema.list.key);
+                postHook(self.doc);
+            }
+        });
     }
 
     if (!preHook && !postHook) {
-        debug("no remove hooks configured in "+this.schema.list.key);
+        debug("no remove hooks configured in "+self.schema.list.key);
     }
-
-    cb && cb();
 };
 
 module.exports = Model;
-
-
-/*
- JASMINE:  tO spyOn exec callback do something like this:
-
- spyOn(<list>.model,'exec').and.callFake(function(callback){
- callback && callback(null, <list-data>);
- });
-
-*/

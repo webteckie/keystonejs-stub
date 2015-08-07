@@ -21,6 +21,7 @@ SampleListModel.schema.statics.prefixName = function(prefix) {
 SampleListModel.schema.pre('save', function(next) {
     debug("SampleListModel: running pre-save");
     this.name = 'pre-save';
+    next && next();
 });
 
 SampleListModel.schema.post('save', function(doc) {

@@ -24,12 +24,6 @@ List.prototype.add = function(fields) {};
 
 List.prototype.relationship = function() {};
 
-List.prototype.save = function(opts, cb) {
-    debug("calling LIST save");
-
-    this.model.save(opts, cb);
-};
-
 // this method is used to activate the document in the list
 List.prototype.setDoc = function(doc) {
     debug("attaching doc["+doc.name+"] to list: "+ this.key);
