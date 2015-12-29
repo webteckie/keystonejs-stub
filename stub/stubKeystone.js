@@ -5,7 +5,7 @@ var List = require('./stubList');
 module.exports = new Keystone();
 
 function Keystone() {
-  console.log("****NEW INSTANCE****");
+  debug("new instance");
   // Add any canned config (or test can do a stubKeystone.set('sample config', 'sample-value')
   this.config = {
     'sample entry': "test-stub"
@@ -27,7 +27,7 @@ Keystone.prototype.init = function() {
 
 Keystone.prototype.set = function(key, value) {
   if (key) {
-    console.log("***ks:set "+key+" = " + value);
+    debug("***ks:set "+key+" = " + value);
     this.config[key] = value;
   }
 };
@@ -35,7 +35,7 @@ Keystone.prototype.set = function(key, value) {
 // For doing stubKeystone.get('sample config')
 Keystone.prototype.get = function(key) {
   if (key in this.config) {
-    console.log("***ks:get "+key+" = " + this.config[key]);
+    debug("***ks:get "+key+" = " + this.config[key]);
     return this.config[key];
   } else {
     return "";
