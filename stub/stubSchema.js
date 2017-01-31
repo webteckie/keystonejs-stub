@@ -78,6 +78,13 @@ Schema.prototype.plugin = function (fn, opts) {
     return this;
 };
 
+
+Schema.prototype.add = function (opts) {
+    //add a Mongoose field type
+    return opts;
+};
+
+
 Schema.prototype.method = function (name, fn) {
    debug("defining class method: "+name);
     if ('string' != typeof name)
